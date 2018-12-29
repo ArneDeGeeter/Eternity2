@@ -1,0 +1,1 @@
+{"trainingName":"QLearningDiscreteDense","mdpName":"Eternity","conf":{"seed":123,"maxEpochStep":78400,"maxStep":8000000,"expRepMaxSize":10000,"batchSize":128,"targetDqnUpdateFreq":50,"updateStart":0,"rewardFactor":0.1,"gamma":0.99,"errorClamp":5.0,"minEpsilon":0.1,"epsilonNbStep":2000,"doubleDQN":true},"stepCounter":9950,"millisTime":1546118363409}
