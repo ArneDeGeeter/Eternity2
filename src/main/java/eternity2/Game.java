@@ -158,8 +158,14 @@ public class Game implements Encodable {
             }*/
 
             if (printOutput) {
-                if(System.currentTimeMillis()>Toy.time+1000*60*10){
-                    Toy.time=System.currentTimeMillis();
+                if (Toy.points.containsKey(this.totalReward)) {
+                    Toy.points.put(this.totalReward, Toy.points.get(this.totalReward) + 1);
+                } else {
+                    Toy.points.put(this.totalReward, this.totalReward + 1);
+
+                }
+                if (System.currentTimeMillis() > Toy.time + 1000 * 60 * 10) {
+                    Toy.time = System.currentTimeMillis();
                     Iterator it = Toy.points.entrySet().iterator();
                     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
@@ -167,14 +173,14 @@ public class Game implements Encodable {
                     file.getParentFile().mkdirs();
                     PrintWriter writer = new PrintWriter(file, "UTF-8");
                     while (it.hasNext()) {
-                        Map.Entry pair = (Map.Entry)it.next();
+                        Map.Entry pair = (Map.Entry) it.next();
                         writer.println(pair.getKey() + " = " + pair.getValue());
                         it.remove(); // avoids a ConcurrentModificationException
                     }
                     writer.close();
                 }
                 if (totalReward >= (size * (size - 1)) * 2 * 0.7) {
-                    if(totalReward>=(size * (size - 1)) * 2 * 0.9){
+                    if (totalReward >= (size * (size - 1)) * 2 * 0.9) {
                         printImage();
                     }
                     File file = new File("E:\\school\\OS1\\Labos\\Eternity2\\Output\\" + size + "\\" + "70%AndHigher" + "\\" + totalReward + "_" + System.currentTimeMillis() + ".txt");
@@ -276,7 +282,7 @@ public class Game implements Encodable {
             }
             String everything = sb.toString();
             String[] pieces = everything.split(",");
-            g.totalReward=g.board.placeAllPieces(pieces);
+            g.totalReward = g.board.placeAllPieces(pieces);
             br.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -298,7 +304,7 @@ public class Game implements Encodable {
             }
         }
         ArrayList<Tile> tiles = board.getLeftTiles();
-        int[][] image = new int[x * size +size*3][ x * size+size*3];
+        int[][] image = new int[x * size + size * 3][x * size + size * 3];
         int horizontal = 0;
         int vertical = 0;
         for (Tile t : tiles) {
@@ -309,7 +315,7 @@ public class Game implements Encodable {
                 for (int i = 0; i < x; i++) {
                     for (int j = 0; j < x; j++) {
                         try {
-                            image[horizontal  + i][vertical  + j] = temp[j][i] + image[horizontal  + i][vertical  + j];
+                            image[horizontal + i][vertical + j] = temp[j][i] + image[horizontal + i][vertical + j];
                         } catch (ArrayIndexOutOfBoundsException e) {
                         }
                     }
@@ -319,7 +325,7 @@ public class Game implements Encodable {
                 for (int i = 0; i < x; i++) {
                     for (int j = 0; j < x; j++) {
                         try {
-                            image[horizontal  + i][vertical  + j] = temp[i][j] + image[horizontal  + i][vertical  + j];
+                            image[horizontal + i][vertical + j] = temp[i][j] + image[horizontal + i][vertical + j];
                         } catch (ArrayIndexOutOfBoundsException e) {
                         }
                     }
@@ -329,7 +335,7 @@ public class Game implements Encodable {
                 for (int i = 0; i < x; i++) {
                     for (int j = 0; j < x; j++) {
                         try {
-                            image[horizontal  + i][vertical + x - j] = temp[i][j] + image[horizontal  + i][vertical  + x - j];
+                            image[horizontal + i][vertical + x - j] = temp[i][j] + image[horizontal + i][vertical + x - j];
                         } catch (ArrayIndexOutOfBoundsException e) {
                         }
                     }
@@ -339,17 +345,17 @@ public class Game implements Encodable {
                 for (int i = 0; i < x; i++) {
                     for (int j = 0; j < x; j++) {
                         try {
-                            image[horizontal - i + x][vertical  + j] = temp[j][i] + image[horizontal - i + x][vertical  + j];
+                            image[horizontal - i + x][vertical + j] = temp[j][i] + image[horizontal - i + x][vertical + j];
                         } catch (ArrayIndexOutOfBoundsException e) {
                         }
                     }
 
                 }
-                horizontal=horizontal+x+3;
+                horizontal = horizontal + x + 3;
                 t = t.getRightTile();
 
             }
-            vertical=vertical+x+3;
+            vertical = vertical + x + 3;
         }
         makeImage(image);
     }
@@ -373,7 +379,7 @@ public class Game implements Encodable {
                 image.setRGB(i, j, newColor.getRGB());
             }
         }
-        File output = new File("E:\\school\\OS1\\Labos\\Eternity2\\Output\\" + this.size + "\\Images\\" +totalReward+"_"+System.currentTimeMillis() + ".jpg");
+        File output = new File("E:\\school\\OS1\\Labos\\Eternity2\\Output\\" + this.size + "\\Images\\" + totalReward + "_" + System.currentTimeMillis() + ".jpg");
         output.mkdirs();
         try {
             ImageIO.write(image, "jpg", output);
